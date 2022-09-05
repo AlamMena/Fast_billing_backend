@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, response } from "express";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
-import admin from "firebase-admin"
+import admin from "firebase-admin";
 import { GenerateValidationResponse } from "../Exceptions/ValidationHandler";
 import { getCurrentUser } from "../Services/SessionHandler";
 
@@ -9,7 +9,6 @@ import { getCurrentUser } from "../Services/SessionHandler";
 const firebase = admin.initializeApp({
     credential: admin.credential.cert('./firebase/firebasesdkkey.json')
 });
-
 
 // async function Login() {
 
@@ -24,7 +23,6 @@ const firebase = admin.initializeApp({
 //     }
 
 // }
-
 
 async function AuthorizationHandler(req: Request, res: Response, next: NextFunction) {
 
