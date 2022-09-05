@@ -26,7 +26,7 @@ const firebase = firebase_admin_1.default.initializeApp({
 //         console.log(error);
 //     }
 // }
-function AuthorizationHandler(req, resp, next) {
+function AuthorizationHandler(req, res, next) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         // anonymous api paths
@@ -37,7 +37,7 @@ function AuthorizationHandler(req, resp, next) {
                 // getting token from headers
                 let token = (_a = req.headers['authorization']) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
                 if (token === undefined) {
-                    resp.status(403).send({ message: "Invalid token" });
+                    return res.status(403).send({ message: "Invalid token" });
                 }
                 // verify token with firebase
                 const userToken = yield firebase.auth().verifyIdToken(token !== null && token !== void 0 ? token : "");
@@ -50,13 +50,13 @@ function AuthorizationHandler(req, resp, next) {
                 const firebaseError = error;
                 if (firebaseError.code === "auth/id-token-expired") {
                     const validationResponse = (0, ValidationHandler_1.GenerateValidationResponse)({ Message: "Token expired", Code: 403 });
-                    resp.status(403).send(validationResponse);
+                    return res.status(403).send(validationResponse);
                 }
                 if (firebaseError.code === "auth/invalid-id-token" || firebaseError.code === "auth/argument-error") {
                     const validationResponse = (0, ValidationHandler_1.GenerateValidationResponse)({ Message: "Invalid token", Code: 403 });
-                    resp.status(403).send(validationResponse);
+                    return res.status(403).send(validationResponse);
                 }
-                resp.status(500).send({ Message: "An error has ocurred" });
+                return res.status(500).send({ Message: "An error has ocurred" });
             }
         }
     });

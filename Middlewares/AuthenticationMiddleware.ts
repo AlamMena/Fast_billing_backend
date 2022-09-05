@@ -3,7 +3,6 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import admin from "firebase-admin"
 import { GenerateValidationResponse } from "../Exceptions/ValidationHandler";
-import { userInfo } from "os";
 import { getCurrentUser } from "../Services/SessionHandler";
 
 
@@ -27,7 +26,7 @@ const firebase = admin.initializeApp({
 // }
 
 
-async function AuthorizationHandler(req: Request, resp: Response, next: NextFunction) {
+async function AuthorizationHandler(req: Request, res: Response, next: NextFunction) {
 
     // anonymous api paths
     const anonymousPaths = ['/', '/api/v1/company', '/api/v1/companies'];
@@ -39,7 +38,7 @@ async function AuthorizationHandler(req: Request, resp: Response, next: NextFunc
             // getting token from headers
             let token = req.headers['authorization']?.split(' ')[1];
             if (token === undefined) {
-                resp.status(403).send({ message: "Invalid token" })
+                return res.status(403).send({ message: "Invalid token" })
             }
             // verify token with firebase
             const userToken = await firebase.auth().verifyIdToken(token ?? "");
@@ -55,15 +54,15 @@ async function AuthorizationHandler(req: Request, resp: Response, next: NextFunc
 
             if (firebaseError.code === "auth/id-token-expired") {
                 const validationResponse = GenerateValidationResponse({ Message: "Token expired", Code: 403 });
-                resp.status(403).send(validationResponse)
+                return res.status(403).send(validationResponse)
             }
 
             if (firebaseError.code === "auth/invalid-id-token" || firebaseError.code === "auth/argument-error") {
                 const validationResponse = GenerateValidationResponse({ Message: "Invalid token", Code: 403 });
-                resp.status(403).send(validationResponse)
+                return res.status(403).send(validationResponse)
             }
 
-            resp.status(500).send({ Message: "An error has ocurred" });
+            return res.status(500).send({ Message: "An error has ocurred" });
         }
     }
 
