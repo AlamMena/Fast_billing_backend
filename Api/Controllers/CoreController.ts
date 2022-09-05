@@ -52,10 +52,10 @@ export class CoreController {
             const entity = new this.dbModel(req.body);
 
             // default data
-            entity.companyId = currentUser.companyId;
+            // entity.companyId = currentUser.companyId;
             entity.IsDeleted = false;
             entity.CreatedAt = new Date();
-            entity.CreatedBy = currentUser.uid;// add user id
+            // entity.CreatedBy = currentUser.uid;// add user id
 
             await entity.save();
 
@@ -79,10 +79,10 @@ export class CoreController {
             }
 
             const entity = req.body;
-            entity.companyId = currentUser.companyId;
+            // entity.companyId = currentUser.companyId;
             entity.IsDeleted = false;
             entity.UpdatedAt = new Date();
-            entity.UpdatedBy = currentUser.uid;// add user id
+            // entity.UpdatedBy = currentUser.uid;// add user id
 
             const response = await this.dbModel.updateOne({ _id: _id }, { $set: entity });
             return res.status(200).send(response);
@@ -105,10 +105,10 @@ export class CoreController {
             }
 
             const entity = req.body;
-            entity.companyId = currentUser.companyId;
+            // entity.companyId = currentUser.companyId;
             entity.IsDeleted = true;
             entity.UpdatedAt = new Date();
-            entity.UpdatedBy = currentUser.uid;// add user id
+            // entity.UpdatedBy = currentUser.uid;// add user id
 
             const response = await this.dbModel.updateOne({ _id: id }, { $set: entity });
 
