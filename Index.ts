@@ -45,7 +45,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
 
-// app.all("*", AuthorizationHandler);
+app.all("*", AuthorizationHandler);
 
 
 app.use('/api/v1/', CompanyRoutes);

@@ -40,6 +40,7 @@ export class CoreController {
             return res.status(200).send(entities);
         }
         catch (error) {
+            console.log(error);
             return res.status(500).send({ message: 'An error has ocurred' })
         }
     }
@@ -62,6 +63,7 @@ export class CoreController {
             return res.status(201).send();
 
         } catch (error) {
+            console.log(error);
             return res.status(400).send({ message: 'An error has ocurred', details: error });
         }
 
