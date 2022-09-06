@@ -10,7 +10,7 @@ interface IContact {
     type: String,
     imageUrl: String,
 
-    isDeleted: Boolean,
+    IsDeleted: Boolean,
 
     CreatedAt: Date,
     CreatedBy: String,
