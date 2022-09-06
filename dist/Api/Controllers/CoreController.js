@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CoreController = void 0;
 const ValidationHandler_1 = require("../../Exceptions/ValidationHandler");
-const SessionHandler_1 = require("../../Services/SessionHandler");
 class CoreController {
     constructor(model) {
         this.dbModel = model;
@@ -47,10 +46,10 @@ class CoreController {
             try {
                 const entity = new this.dbModel(req.body);
                 // default data
-                entity.companyId = SessionHandler_1.currentUser.companyId;
+                // entity.companyId = currentUser.companyId;
                 entity.IsDeleted = false;
                 entity.CreatedAt = new Date();
-                entity.CreatedBy = SessionHandler_1.currentUser.uid; // add user id
+                // entity.CreatedBy = currentUser.uid;// add user id
                 yield entity.save();
                 console.log(entity);
                 return res.status(201).send();
@@ -69,10 +68,10 @@ class CoreController {
                     return res.status(404).send({ message: "Resource not found" });
                 }
                 const entity = req.body;
-                entity.companyId = SessionHandler_1.currentUser.companyId;
+                // entity.companyId = currentUser.companyId;
                 entity.IsDeleted = false;
                 entity.UpdatedAt = new Date();
-                entity.UpdatedBy = SessionHandler_1.currentUser.uid; // add user id
+                // entity.UpdatedBy = currentUser.uid;// add user id
                 const response = yield this.dbModel.updateOne({ _id: _id }, { $set: entity });
                 return res.status(200).send(response);
             }
@@ -89,10 +88,10 @@ class CoreController {
                     return res.status(404).send({ message: "Resource not found" });
                 }
                 const entity = req.body;
-                entity.companyId = SessionHandler_1.currentUser.companyId;
+                // entity.companyId = currentUser.companyId;
                 entity.IsDeleted = true;
                 entity.UpdatedAt = new Date();
-                entity.UpdatedBy = SessionHandler_1.currentUser.uid; // add user id
+                // entity.UpdatedBy = currentUser.uid;// add user id
                 const response = yield this.dbModel.updateOne({ _id: id }, { $set: entity });
                 return res.status(200).send(response);
             }

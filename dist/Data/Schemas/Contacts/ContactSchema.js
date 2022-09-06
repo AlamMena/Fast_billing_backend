@@ -32,7 +32,7 @@ const ContactSchema = new mongoose_1.Schema({
     noIdentification: { type: String, require: true },
     type: { type: String, required: true },
     imageUrl: { type: String, required: false },
-    isDeleted: { type: Boolean },
+    IsDeleted: { type: Boolean },
     CreatedAt: { type: Date },
     CreatedBy: { type: String },
     UpdatedAt: { type: Date },
