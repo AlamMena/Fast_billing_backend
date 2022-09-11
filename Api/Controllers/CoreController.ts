@@ -125,7 +125,7 @@ export class CoreController {
 
         const { id } = req.query;
 
-        const item = await this.dbModel.findOne({ id: id });
+        const item = await this.dbModel.findOne({ _id: id });
 
         if (item === null) {
             res.status(404).send({ message: 'Resource not found' })
