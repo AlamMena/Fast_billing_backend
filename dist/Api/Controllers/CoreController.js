@@ -103,7 +103,7 @@ class CoreController {
     GetByIdAsync(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.query;
-            const item = this.dbModel.find({ id: id });
+            const item = yield this.dbModel.findOne({ id: id });
             if (item === null) {
                 res.status(404).send({ message: 'Resource not found' });
             }
