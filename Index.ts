@@ -37,7 +37,7 @@ mongoose.connect(process.env.FAST_BILLING_PRODUCTION_URI ?? "", function (res) {
 app.listen(PORT, () => {
     console.log(`Excuting on port:${PORT}`);
 });
-app.get('/', (req, res) => { res.send('here we are mmg ') })
+app.get('/', (req, res) => { res.send('Welcome ') })
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
