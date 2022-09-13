@@ -24,7 +24,7 @@ async GetContactsByValue(req: Request, res: Response, next: NextFunction) {
                     { phone: { '$regex': value, '$options': 'i' } }
                 ]
             },
-            { IsDeleted: false },
+            { IsDeleted: true },
             { type: type }
         ]
       
