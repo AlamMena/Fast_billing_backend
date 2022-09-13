@@ -10,16 +10,24 @@ class ContactController extends CoreController {
     }
 
 async GetContactsByValue(req: Request, res: Response, next: NextFunction) {
-    let { value } = req.query;
+    let { value,isDeleted,type } = req.query;
 
     const page: number = parseInt(req.query.page as string);
     const limit: number = parseInt(req.query.limit as string);
 
     let query = {
-        $or: [
-            { name:{'$regex': value, '$options': 'i'}},
-            { noIdentification: {'$regex': value, '$options': 'i'} },
-            { phone:{'$regex': value, '$options': 'i'} }]
+        $and: [
+            {
+                $or: [
+                    { name:{'$regex': value, '$options': 'i'}},
+                    { noIdentification: {'$regex': value, '$options': 'i'} },
+                    { phone: { '$regex': value, '$options': 'i' } }
+                ]
+            },
+            { IsDeleted: false },
+            { type: type }
+        ]
+      
     }
     let data = await contactModel.find(query).skip((page - 1) * limit).limit(limit);
     let dataQuantity = await contactModel.find(query).count();

@@ -17,14 +17,20 @@ class ContactController extends CoreController_1.CoreController {
     }
     GetContactsByValue(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            let { value } = req.query;
+            let { value, status, type } = req.query;
             const page = parseInt(req.query.page);
             const limit = parseInt(req.query.limit);
             let query = {
-                $or: [
-                    { name: { '$regex': value, '$options': 'i' } },
-                    { noIdentification: { '$regex': value, '$options': 'i' } },
-                    { phone: { '$regex': value, '$options': 'i' } }
+                $and: [
+                    {
+                        $or: [
+                            { name: { '$regex': value, '$options': 'i' } },
+                            { noIdentification: { '$regex': value, '$options': 'i' } },
+                            { phone: { '$regex': value, '$options': 'i' } }
+                        ]
+                    },
+                    { IsDeleted: false },
+                    { type: type }
                 ]
             };
             let data = yield ContactSchema_1.model.find(query).skip((page - 1) * limit).limit(limit);
