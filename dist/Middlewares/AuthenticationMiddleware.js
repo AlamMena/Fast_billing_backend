@@ -12,20 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Login = void 0;
+const auth_1 = require("firebase/auth");
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
 const ValidationHandler_1 = require("../Exceptions/ValidationHandler");
 const SessionHandler_1 = require("../Services/SessionHandler");
+const FirebaseAppConfig_1 = require("../Firebase/FirebaseAppConfig");
 const firebase = firebase_admin_1.default.initializeApp({
     credential: firebase_admin_1.default.credential.cert('./firebase/firebasesdkkey.json')
 });
-// async function Login() {
-//     try {
-//         const loginResponse = await signInWithEmailAndPassword(auth, 'alam@gmail.com', '123456');
-//         const token = await loginResponse.user.getIdToken();
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+function Login() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const auth = (0, auth_1.getAuth)(FirebaseAppConfig_1.app);
+        try {
+            const loginResponse = yield (0, auth_1.signInWithEmailAndPassword)(auth, 'alam@gmail.com', '123456');
+            const token = yield loginResponse.user.getIdToken();
+            return token;
+        }
+        catch (error) {
+            console.log(error);
+        }
+    });
+}
+exports.Login = Login;
 function AuthorizationHandler(req, res, next) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {

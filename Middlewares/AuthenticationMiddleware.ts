@@ -4,25 +4,28 @@ import { FirebaseError } from "firebase/app";
 import admin from "firebase-admin";
 import { GenerateValidationResponse } from "../Exceptions/ValidationHandler";
 import { getCurrentUser } from "../Services/SessionHandler";
+import {app} from '../Firebase/FirebaseAppConfig'
 
 
 const firebase = admin.initializeApp({
     credential: admin.credential.cert('./firebase/firebasesdkkey.json')
 });
 
-// async function Login() {
+async function Login() {
 
-//     try {
 
-//         const loginResponse = await signInWithEmailAndPassword(auth, 'alam@gmail.com', '123456');
-//         const token = await loginResponse.user.getIdToken();
+    const auth = getAuth(app);
+    try {
 
-//     } catch (error) {
+        const loginResponse = await signInWithEmailAndPassword(auth, 'alam@gmail.com', '123456');
+        const token = await loginResponse.user.getIdToken();
+        return token;
 
-//         console.log(error);
-//     }
+    } catch (error) {
+        console.log(error);
+    }
 
-// }
+}
 
 async function AuthorizationHandler(req: Request, res: Response, next: NextFunction) {
 
@@ -66,4 +69,5 @@ async function AuthorizationHandler(req: Request, res: Response, next: NextFunct
 
 }
 
+export { Login };
 export default AuthorizationHandler;

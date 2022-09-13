@@ -32,12 +32,13 @@ export class CoreController {
             }
 
             const entities = await this.dbModel.find().skip((page - 1) * limit).limit(limit);
+            const dataQuantity = await this.dbModel.count();
 
             if (entities.length === 0) {
                 return res.status(204).send([]);
             }
 
-            return res.status(200).send(entities);
+            return res.status(200).send({ data: entities, dataQuantity });
         }
         catch (error) {
             console.log(error);
