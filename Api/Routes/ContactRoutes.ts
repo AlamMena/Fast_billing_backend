@@ -8,5 +8,7 @@ router.route('/Contact').get((...args) => { ContactController.GetByIdAsync(...ar
 router.route('/Contact').post((...args) => { ContactController.CreateAsync(...args) });
 router.route('/Contact').put((...args) => { ContactController.UpdateAsync(...args) });
 router.route('/Contact').delete((...args) => { ContactController.DeleteAsync(...args) });
+router.route('/Contact/filtered').get((...args) => { ContactController.GetContactsByValue(...args) });
+
 
 export default router;
