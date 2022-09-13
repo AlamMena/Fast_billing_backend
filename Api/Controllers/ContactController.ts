@@ -15,11 +15,12 @@ async GetContactsByValue(req: Request, res: Response, next: NextFunction) {
     const page: number = parseInt(req.query.page as string);
     const limit: number = parseInt(req.query.limit as string);
 
+    let parsedValue = `/${value}/`
     let query = {
         $or: [
-            { name: { $in: value } },
-            { noIdentification: { $in: value } },
-            { phone: { $in: value } }]
+            { name:parsedValue},
+            { noIdentification: parsedValue },
+            { phone:parsedValue }]
     }
     let data = await contactModel.find(query).skip((page - 1) * limit).limit(limit);
     let dataQuantity = await contactModel.find(query).count();
