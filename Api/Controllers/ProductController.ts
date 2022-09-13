@@ -12,7 +12,6 @@ class ProductController extends CoreController {
     async GetProductsByValue(req: Request, res: Response, next: NextFunction) {
         let { value } = req.query;
         let response = await productModel.find({ name: { $in: value } });
-        console.log(value)
         res.send(response);
     }
 
