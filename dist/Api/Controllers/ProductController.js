@@ -19,7 +19,6 @@ class ProductController extends CoreController_1.CoreController {
         return __awaiter(this, void 0, void 0, function* () {
             let { value } = req.query;
             let response = yield ProductSchema_1.model.find({ name: { $in: value } });
-            console.log(value);
             res.send(response);
         });
     }

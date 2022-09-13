@@ -31,7 +31,7 @@ mongoose_1.default.connect((_a = process.env.FAST_BILLING_PRODUCTION_URI) !== nu
 app.listen(PORT, () => {
     console.log(`Excuting on port:${PORT}`);
 });
-app.get('/', (req, res) => { res.send('here we are mmg '); });
+app.get('/', (req, res) => { res.send('Welcome '); });
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
 app.use((0, cors_1.default)());
