@@ -11,14 +11,20 @@ class ContactController extends CoreController {
 
 async GetContactsByValue(req: Request, res: Response, next: NextFunction) {
     let { value } = req.query;
-    let response = await contactModel.find({
+
+    const page: number = parseInt(req.query.page as string);
+    const limit: number = parseInt(req.query.limit as string);
+
+    let query = {
         $or: [
             { name: { $in: value } },
             { noIdentification: { $in: value } },
             { phone: { $in: value } }]
-    });
-
-        res.send(response);
+    }
+    let data = await contactModel.find(query).skip((page - 1) * limit).limit(limit);
+    let dataQuantity = await contactModel.find(query).count();
+    
+    res.send({ data, dataQuantity });
     }
 
 }

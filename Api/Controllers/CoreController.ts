@@ -20,7 +20,6 @@ export class CoreController {
             // getting values
             const page: number = parseInt(req.query.page as string)
             const limit: number = parseInt(req.query.limit as string)
-            const filter: number = parseInt(req.query.filter as string)
 
 
             if (!page) {
