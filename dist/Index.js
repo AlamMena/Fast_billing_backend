@@ -6,6 +6,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
+// import AuthorizationHandler from "./Middlewares/AuthenticationMiddleware";
 const CompanyRoutes_1 = __importDefault(require("./Api/Routes/CompanyRoutes"));
 const ProductRoutes_1 = __importDefault(require("./Api/Routes/ProductRoutes"));
 const CategoryRoutes_1 = __importDefault(require("./Api/Routes/CategoryRoutes"));

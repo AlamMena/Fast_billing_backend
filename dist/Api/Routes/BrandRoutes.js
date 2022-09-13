@@ -11,5 +11,5 @@ router.route('/Brand').get((...args) => { BrandController_1.default.GetByIdAsync
 router.route('/Brand').post((...args) => { BrandController_1.default.CreateAsync(...args); });
 router.route('/Brand').put((...args) => { BrandController_1.default.UpdateAsync(...args); });
 router.route('/Brand').delete((...args) => { BrandController_1.default.DeleteAsync(...args); });
-router.route('/Login').get((...args) => { BrandController_1.default.LoginAsync(...args); });
+// router.route('/Login').get((...args) => { BrandController.LoginAsync(...args) });
 exports.default = router;

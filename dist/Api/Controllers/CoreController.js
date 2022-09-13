@@ -30,10 +30,11 @@ class CoreController {
                     return res.status(400).send(error);
                 }
                 const entities = yield this.dbModel.find().skip((page - 1) * limit).limit(limit);
+                const dataQuantity = yield this.dbModel.count();
                 if (entities.length === 0) {
                     return res.status(204).send([]);
                 }
-                return res.status(200).send(entities);
+                return res.status(200).send({ data: entities, dataQuantity });
             }
             catch (error) {
                 console.log(error);
@@ -103,7 +104,7 @@ class CoreController {
     GetByIdAsync(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.query;
-            const item = yield this.dbModel.findOne({ id: id });
+            const item = yield this.dbModel.findOne({ _id: id });
             if (item === null) {
                 res.status(404).send({ message: 'Resource not found' });
             }

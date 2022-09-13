@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from 'dotenv'
-import AuthorizationHandler from "./Middlewares/AuthenticationMiddleware";
+// import AuthorizationHandler from "./Middlewares/AuthenticationMiddleware";
 import CompanyRoutes from "./Api/Routes/CompanyRoutes"
 import ProductRoutes from "./Api/Routes/ProductRoutes"
 import CategoryRoutes from "./Api/Routes/CategoryRoutes"
