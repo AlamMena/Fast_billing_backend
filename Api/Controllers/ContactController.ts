@@ -3,6 +3,7 @@ import { Model } from 'mongoose'
 import { CoreController } from './CoreController';
 import { model as contactModel } from '../../Data/Schemas/Contacts/ContactSchema';
 import { NextFunction, Response, Request } from 'express';
+import { AnyARecord } from 'dns';
 
 class ContactController extends CoreController {
     constructor(dbModel: Model<any>) {
@@ -15,7 +16,7 @@ async GetContactsByValue(req: Request, res: Response, next: NextFunction) {
     const page: number = parseInt(req.query.page as string);
     const limit: number = parseInt(req.query.limit as string);
 
-    let query = {
+    let query:any = {
         $and: [
             {
                 $or: [
@@ -24,10 +25,14 @@ async GetContactsByValue(req: Request, res: Response, next: NextFunction) {
                     { phone: { '$regex': value, '$options': 'i' } }
                 ]
             },
-            { IsDeleted: true },
-            { type: type }
         ]
-      
+    }
+
+    if (isDeleted !== undefined) {
+        query.$and.push({ IsDeleted: isDeleted });
+    }
+    if (type !== undefined) {
+        query.$and.push({ type: type });
     }
     let data = await contactModel.find(query).skip((page - 1) * limit).limit(limit);
     let dataQuantity = await contactModel.find(query).count();
