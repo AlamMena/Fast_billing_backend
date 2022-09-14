@@ -17,9 +17,12 @@ class ContactController extends CoreController_1.CoreController {
     }
     GetContactsByValue(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            let { value, status, type } = req.query;
+            let { value, isDeleted, type } = req.query;
             const page = parseInt(req.query.page);
             const limit = parseInt(req.query.limit);
+            if (value) {
+                console.log(value);
+            }
             let query = {
                 $and: [
                     {
@@ -29,10 +32,14 @@ class ContactController extends CoreController_1.CoreController {
                             { phone: { '$regex': value, '$options': 'i' } }
                         ]
                     },
-                    { IsDeleted: false },
-                    { type: type }
                 ]
             };
+            if (isDeleted !== null) {
+                query.$and.push({ IsDeleted: isDeleted });
+            }
+            if (type !== null) {
+                query.$and.push({ type: type });
+            }
             let data = yield ContactSchema_1.model.find(query).skip((page - 1) * limit).limit(limit);
             let dataQuantity = yield ContactSchema_1.model.find(query).count();
             res.send({ data, dataQuantity });
