@@ -41,10 +41,10 @@ class ContactController extends CoreController {
             let data = await contactModel.find(query).skip((page - 1) * limit).limit(limit);
             let dataQuantity = await contactModel.find(query).count();
     
-            res.send({ data, dataQuantity });
+            res.send({data,dataQuantity});
         }
         catch (error) {
-            res.status(400).send({message:"An error has occurred"})
+            res.status(400).send({message:"An error has occurred",error})
         }
     }
 }

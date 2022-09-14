@@ -17,32 +17,37 @@ class ContactController extends CoreController_1.CoreController {
     }
     GetContactsByValue(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            let { value, isDeleted, type } = req.query;
-            const page = parseInt(req.query.page);
-            const limit = parseInt(req.query.limit);
-            if (value) {
-                console.log(value);
+            try {
+                let { value, isDeleted, type } = req.query;
+                if (!value) {
+                    res.status(400).send({ message: "Value is not valid" });
+                }
+                const page = parseInt(req.query.page);
+                const limit = parseInt(req.query.limit);
+                let query = {
+                    $and: [
+                        {
+                            $or: [
+                                { name: { '$regex': value, '$options': 'i' } },
+                                { noIdentification: { '$regex': value, '$options': 'i' } },
+                                { phone: { '$regex': value, '$options': 'i' } }
+                            ]
+                        },
+                    ]
+                };
+                if (isDeleted) {
+                    query.$and.push({ IsDeleted: isDeleted });
+                }
+                if (type) {
+                    query.$and.push({ type: type });
+                }
+                let data = yield ContactSchema_1.model.find(query).skip((page - 1) * limit).limit(limit);
+                let dataQuantity = yield ContactSchema_1.model.find(query).count();
+                res.send({ m: 'a' });
             }
-            let query = {
-                $and: [
-                    {
-                        $or: [
-                            { name: { '$regex': value, '$options': 'i' } },
-                            { noIdentification: { '$regex': value, '$options': 'i' } },
-                            { phone: { '$regex': value, '$options': 'i' } }
-                        ]
-                    },
-                ]
-            };
-            if (isDeleted !== null) {
-                query.$and.push({ IsDeleted: isDeleted });
+            catch (error) {
+                res.status(400).send({ message: "An error has occurred", error });
             }
-            if (type !== null) {
-                query.$and.push({ type: type });
-            }
-            let data = yield ContactSchema_1.model.find(query).skip((page - 1) * limit).limit(limit);
-            let dataQuantity = yield ContactSchema_1.model.find(query).count();
-            res.send({ data, dataQuantity });
         });
     }
 }
