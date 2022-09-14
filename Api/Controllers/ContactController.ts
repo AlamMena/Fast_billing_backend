@@ -30,7 +30,7 @@ class ContactController extends CoreController {
                 ]
             }
 
-            if (isDeleted) {
+            if (isDeleted !== undefined) {
                 query.$and.push({ IsDeleted: isDeleted });
             }
             if (type) {
