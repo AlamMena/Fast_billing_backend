@@ -14,9 +14,7 @@ class ContactController extends CoreController {
         try {
             let { value, isDeleted, type } = req.query;
 
-            if (!value) {
-                res.status(400).send({message:"Value is not valid"})
-            }
+
             const page: number = parseInt(req.query.page as string);
             const limit: number = parseInt(req.query.limit as string);
 
@@ -24,9 +22,9 @@ class ContactController extends CoreController {
                 $and: [
                     {
                         $or: [
-                            { name: { '$regex': value, '$options': 'i' } },
-                            { noIdentification: { '$regex': value, '$options': 'i' } },
-                            { phone: { '$regex': value, '$options': 'i' } }
+                            { name: { '$regex': value ? value : "", '$options': 'i' } },
+                            { noIdentification: { '$regex': value ? value : "", '$options': 'i' } },
+                            { phone: { '$regex': value ? value : "", '$options': 'i' } }
                         ]
                     },
                 ]
@@ -40,11 +38,11 @@ class ContactController extends CoreController {
             }
             let data = await contactModel.find(query).skip((page - 1) * limit).limit(limit);
             let dataQuantity = await contactModel.find(query).count();
-    
-            res.send({data,dataQuantity});
+
+            res.send({ data, dataQuantity });
         }
         catch (error) {
-            res.status(400).send({message:"An error has occurred",error})
+            res.status(400).send({ message: "An error has occurred", error })
         }
     }
 }
