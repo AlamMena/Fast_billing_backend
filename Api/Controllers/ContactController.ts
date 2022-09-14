@@ -28,10 +28,10 @@ async GetContactsByValue(req: Request, res: Response, next: NextFunction) {
         ]
     }
 
-    if (isDeleted !== undefined) {
+    if (isDeleted !== "") {
         query.$and.push({ IsDeleted: isDeleted });
     }
-    if (type !== undefined) {
+    if (type !== "") {
         query.$and.push({ type: type });
     }
     let data = await contactModel.find(query).skip((page - 1) * limit).limit(limit);
