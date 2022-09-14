@@ -10,38 +10,42 @@ class ContactController extends CoreController {
         super(dbModel)
     }
 
-async GetContactsByValue(req: Request, res: Response, next: NextFunction) {
-    let { value,isDeleted,type } = req.query;
+    async GetContactsByValue(req: Request, res: Response, next: NextFunction) {
+        try {
+            let { value, isDeleted, type } = req.query;
 
-    const page: number = parseInt(req.query.page as string);
-    const limit: number = parseInt(req.query.limit as string);
+            if (!value) {
+                res.status(400).send({message:"Value is not valid"})
+            }
+            const page: number = parseInt(req.query.page as string);
+            const limit: number = parseInt(req.query.limit as string);
 
-    if(value){
-    console.log(value);
-    }
-    let query:any = {
-        $and: [
-            {
-                $or: [
-                    { name:{'$regex': value, '$options': 'i'}},
-                    { noIdentification: {'$regex': value, '$options': 'i'} },
-                    { phone: { '$regex': value, '$options': 'i' } }
+            let query: any = {
+                $and: [
+                    {
+                        $or: [
+                            { name: { '$regex': value, '$options': 'i' } },
+                            { noIdentification: { '$regex': value, '$options': 'i' } },
+                            { phone: { '$regex': value, '$options': 'i' } }
+                        ]
+                    },
                 ]
-            },
-        ]
-    }
+            }
 
-    if (isDeleted) {
-        query.$and.push({ IsDeleted: isDeleted });
-    }
-    if (type) {
-        query.$and.push({ type: type });
-    }
-    let data = await contactModel.find(query).skip((page - 1) * limit).limit(limit);
-    let dataQuantity = await contactModel.find(query).count();
+            if (isDeleted) {
+                query.$and.push({ IsDeleted: isDeleted });
+            }
+            if (type) {
+                query.$and.push({ type: type });
+            }
+            let data = await contactModel.find(query).skip((page - 1) * limit).limit(limit);
+            let dataQuantity = await contactModel.find(query).count();
     
-    res.send({ data, dataQuantity });
+            res.send({ data, dataQuantity });
+        }
+        catch (error) {
+            res.status(400).send({message:"An error has occurred"})
+        }
     }
-
 }
 export default new ContactController(contactModel);
