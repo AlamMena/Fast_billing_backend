@@ -33,7 +33,7 @@ class ContactController extends CoreController {
             if (isDeleted !== "all") {
                 query.$and.push({ IsDeleted: isDeleted });
             }
-            if (type) {
+            if (type != "all") {
                 query.$and.push({ type: type });
             }
             let data = await contactModel.find(query).skip((page - 1) * limit).limit(limit);
