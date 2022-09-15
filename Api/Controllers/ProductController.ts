@@ -16,7 +16,7 @@ class ProductController extends CoreController {
             const page: number = parseInt(req.query.page as string);
             const limit: number = parseInt(req.query.limit as string);
 
-            const parsedValue: number = parseFloat(value as string);
+            const parsedValue: number = parseFloat(value as string) ?? 0;
 
             let query: any = {
                 $and: [
