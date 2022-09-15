@@ -10,9 +10,38 @@ class ProductController extends CoreController {
     }
 
     async GetProductsByValue(req: Request, res: Response, next: NextFunction) {
-        let { value } = req.query;
-        let response = await productModel.find({ name: { $in: value } });
-        res.send(response);
+        try {
+            let { value, isDeleted, type } = req.query;
+
+            const page: number = parseInt(req.query.page as string);
+            const limit: number = parseInt(req.query.limit as string);
+
+            let query: any = {
+                $and: [
+                    {
+                        $or: [
+                            { name: { '$regex': value ? value : "", '$options': 'i' } },
+                            { price: { '$regex': value ? value : "", '$options': 'i' } },
+                            { cost: { '$regex': value ? value : "", '$options': 'i' } },
+                            { benefit: { '$regex': value ? value : "", '$options': 'i' } },
+
+                        ]
+                    },
+                ]
+            }
+
+            if (isDeleted !== "all") {
+                query.$and.push({ IsDeleted: isDeleted });
+            }
+
+            let data = await productModel.find(query).skip((page - 1) * limit).limit(limit);
+            let dataQuantity = await productModel.find(query).count();
+
+            res.send({ data, dataQuantity });
+        }
+        catch (error) {
+            res.status(500).send({ message: "An error has occurred", error })
+        }
     }
 
 }

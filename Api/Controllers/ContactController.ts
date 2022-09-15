@@ -14,7 +14,6 @@ class ContactController extends CoreController {
         try {
             let { value, isDeleted, type } = req.query;
 
-
             const page: number = parseInt(req.query.page as string);
             const limit: number = parseInt(req.query.limit as string);
 
