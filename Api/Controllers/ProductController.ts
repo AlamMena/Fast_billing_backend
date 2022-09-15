@@ -18,7 +18,6 @@ class ProductController extends CoreController {
 
             const parsedValue: number = isNaN(parseFloat(value as string)) ? 0 : parseFloat(value as string);
 
-            return res.send({ value });
             let query: any = {
                 $and: [
                     {
