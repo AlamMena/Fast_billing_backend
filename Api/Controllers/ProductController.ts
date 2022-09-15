@@ -21,9 +21,9 @@ class ProductController extends CoreController {
                     {
                         $or: [
                             { name: { '$regex': value ? value : "", '$options': 'i' } },
-                            { price: { '$regex': value ? value : "", '$options': 'i' } },
-                            { cost: { '$regex': value ? value : "", '$options': 'i' } },
-                            { benefit: { '$regex': value ? value : "", '$options': 'i' } },
+                            { price: { '$regex': value ? value : "" } },
+                            { cost: { '$regex': value ? value : "" } },
+                            { benefit: { '$regex': value ? value : "" } },
 
                         ]
                     },
