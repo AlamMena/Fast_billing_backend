@@ -16,11 +16,9 @@ class ProductController extends CoreController {
             const page: number = parseInt(req.query.page as string);
             const limit: number = parseInt(req.query.limit as string);
 
-            if (!value) {
-                return res.status(400).send('Value is not valid');
-            }
             const parsedValue: number = isNaN(parseFloat(value as string)) ? 0 : parseFloat(value as string);
 
+            return res.send({ value });
             let query: any = {
                 $and: [
                     {
