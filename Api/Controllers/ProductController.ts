@@ -16,13 +16,16 @@ class ProductController extends CoreController {
             const page: number = parseInt(req.query.page as string);
             const limit: number = parseInt(req.query.limit as string);
 
-            const parsedValue: number = parseFloat(value as string) ?? 0;
+            if (!value) {
+                return res.status(400).send('Value is not valid');
+            }
+            const parsedValue: number = parseFloat(value as string) === NaN ? 0 : parseFloat(value as string);
 
             let query: any = {
                 $and: [
                     {
                         $or: [
-                            { name: { '$regex': value ? value : "", '$options': 'i' } },
+                            { name: { '$regex': value?.toString(), '$options': 'i' } },
                             { price: parsedValue },
                             { cost: parsedValue },
                             { benefit: parsedValue },
@@ -39,10 +42,10 @@ class ProductController extends CoreController {
             let data = await productModel.find(query).skip((page - 1) * limit).limit(limit);
             let dataQuantity = await productModel.find(query).count();
 
-            res.send({ data, dataQuantity });
+            return res.send({ data, dataQuantity });
         }
         catch (error) {
-            res.status(500).send({ message: "An error has occurred", error })
+            return res.status(500).send({ message: "An error has occurred", error })
         }
     }
 
