@@ -19,31 +19,28 @@ class ContactController extends CoreController_1.CoreController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let { value, isDeleted, type } = req.query;
-                if (!value) {
-                    res.status(400).send({ message: "Value is not valid" });
-                }
                 const page = parseInt(req.query.page);
                 const limit = parseInt(req.query.limit);
                 let query = {
                     $and: [
                         {
                             $or: [
-                                { name: { '$regex': value, '$options': 'i' } },
-                                { noIdentification: { '$regex': value, '$options': 'i' } },
-                                { phone: { '$regex': value, '$options': 'i' } }
+                                { name: { '$regex': value ? value : "", '$options': 'i' } },
+                                { noIdentification: { '$regex': value ? value : "", '$options': 'i' } },
+                                { phone: { '$regex': value ? value : "", '$options': 'i' } }
                             ]
                         },
                     ]
                 };
-                if (isDeleted) {
+                if (isDeleted !== "all") {
                     query.$and.push({ IsDeleted: isDeleted });
                 }
-                if (type) {
+                if (type != "all") {
                     query.$and.push({ type: type });
                 }
                 let data = yield ContactSchema_1.model.find(query).skip((page - 1) * limit).limit(limit);
                 let dataQuantity = yield ContactSchema_1.model.find(query).count();
-                res.send({ m: 'a' });
+                res.send({ data, dataQuantity });
             }
             catch (error) {
                 res.status(400).send({ message: "An error has occurred", error });

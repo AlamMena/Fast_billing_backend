@@ -17,9 +17,36 @@ class ProductController extends CoreController_1.CoreController {
     }
     GetProductsByValue(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            let { value } = req.query;
-            let response = yield ProductSchema_1.model.find({ name: { $in: value } });
-            res.send(response);
+            try {
+                let { value, isDeleted } = req.query;
+                const page = parseInt(req.query.page);
+                const limit = parseInt(req.query.limit);
+                if (!value) {
+                    return res.status(400).send('Value is not valid');
+                }
+                const parsedValue = isNaN(parseFloat(value)) ? 0 : parseFloat(value);
+                let query = {
+                    $and: [
+                        {
+                            $or: [
+                                { name: { '$regex': value === null || value === void 0 ? void 0 : value.toString(), '$options': 'i' } },
+                                { price: parsedValue },
+                                { cost: parsedValue },
+                                { benefit: parsedValue },
+                            ]
+                        },
+                    ]
+                };
+                if (isDeleted !== "all") {
+                    query.$and.push({ IsDeleted: isDeleted });
+                }
+                let data = yield ProductSchema_1.model.find(query).skip((page - 1) * limit).limit(limit);
+                let dataQuantity = yield ProductSchema_1.model.find(query).count();
+                return res.send({ data, dataQuantity });
+            }
+            catch (error) {
+                return res.status(500).send({ message: "An error has occurred", error });
+            }
         });
     }
 }

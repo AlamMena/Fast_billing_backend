@@ -19,7 +19,7 @@ class ProductController extends CoreController {
             if (!value) {
                 return res.status(400).send('Value is not valid');
             }
-            const parsedValue: number = parseFloat(value as string) === NaN ? 0 : parseFloat(value as string);
+            const parsedValue: number = isNaN(parseFloat(value as string)) ? 0 : parseFloat(value as string);
 
             let query: any = {
                 $and: [
