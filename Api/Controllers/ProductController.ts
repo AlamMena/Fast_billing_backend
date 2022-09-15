@@ -11,19 +11,21 @@ class ProductController extends CoreController {
 
     async GetProductsByValue(req: Request, res: Response, next: NextFunction) {
         try {
-            let { value, isDeleted, type } = req.query;
+            let { value, isDeleted } = req.query;
 
             const page: number = parseInt(req.query.page as string);
             const limit: number = parseInt(req.query.limit as string);
+
+            const parsedValue: number = parseFloat(value as string);
 
             let query: any = {
                 $and: [
                     {
                         $or: [
                             { name: { '$regex': value ? value : "", '$options': 'i' } },
-                            { price: value },
-                            { cost: value },
-                            { benefit: value },
+                            { price: parsedValue },
+                            { cost: parsedValue },
+                            { benefit: parsedValue },
 
                         ]
                     },
