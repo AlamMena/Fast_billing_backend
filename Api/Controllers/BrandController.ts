@@ -24,7 +24,7 @@ class BrandController extends CoreController {
                 ]
             }
 
-            if (isDeleted !== "all") {
+            if (IsDeleted !== "all") {
                 query.$and.push({ IsDeleted: isDeleted });
             }
 

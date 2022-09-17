@@ -5,7 +5,7 @@ const BrandSchema = new Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
 
-    isDeleted: { type: Boolean },
+    IsDeleted: { type: Boolean },
 
     createdAt: { type: Date },
     createdBy: { type: String },
