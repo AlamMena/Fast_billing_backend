@@ -8,5 +8,6 @@ router.route('/Category').get((...args) => { CategoryController.GetByIdAsync(...
 router.route('/Category').post((...args) => { CategoryController.CreateAsync(...args) });
 router.route('/Category').put((...args) => { CategoryController.UpdateAsync(...args) });
 router.route('/Category').delete((...args) => { CategoryController.DeleteAsync(...args) });
+router.route('/categories/filtered').get((...args) => { CategoryController.GetCategoriesByValue(...args) });
 
 export default router;
