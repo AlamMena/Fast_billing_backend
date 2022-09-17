@@ -21,11 +21,7 @@ class ProductController extends CoreController_1.CoreController {
                 let { value, isDeleted } = req.query;
                 const page = parseInt(req.query.page);
                 const limit = parseInt(req.query.limit);
-                if (!value) {
-                    return res.status(400).send('Value is not valid');
-                }
                 const parsedValue = isNaN(parseFloat(value)) ? 0 : parseFloat(value);
-                return res.send({ value });
                 let query = {
                     $and: [
                         {

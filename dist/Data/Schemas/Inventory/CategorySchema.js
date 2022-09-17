@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.model = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const CategorySchema = new mongoose_1.Schema({
-    Name: { type: String, required: true },
+    name: { type: String, required: true },
     IsDeleted: { type: Boolean },
     CreatedAt: { type: Date },
     CreatedBy: { type: String },

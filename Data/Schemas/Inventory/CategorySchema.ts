@@ -2,7 +2,7 @@ import mongoose, { Model, Schema } from "mongoose";
 import CoreModel from "../../Core/CoreModel";
 
 const CategorySchema = new Schema({
-    Name: { type: String, required: true },
+    name: { type: String, required: true },
 
     IsDeleted: { type: Boolean },
 

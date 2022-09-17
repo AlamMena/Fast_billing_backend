@@ -11,4 +11,5 @@ router.route('/Category').get((...args) => { CategoryController_1.default.GetByI
 router.route('/Category').post((...args) => { CategoryController_1.default.CreateAsync(...args); });
 router.route('/Category').put((...args) => { CategoryController_1.default.UpdateAsync(...args); });
 router.route('/Category').delete((...args) => { CategoryController_1.default.DeleteAsync(...args); });
+router.route('/categories/filtered').get((...args) => { CategoryController_1.default.GetCategoriesByValue(...args); });
 exports.default = router;
